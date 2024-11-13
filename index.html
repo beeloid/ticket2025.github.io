@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ライブハウスチケット予約フォーム</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>ライブハウスチケット予約フォーム</h1>
+    <form id="reservation-form">
+        <!-- 名前・メールアドレス・電話番号・公演日・枚数など -->
+        <label for="name">お名前：</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">メールアドレス：</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="phone">電話番号（任意）：</label>
+        <input type="tel" id="phone" name="phone"><br><br>
+
+        <label for="ticket_quantity">チケット枚数：</label>
+        <select id="ticket_quantity" name="ticket_quantity" required>
+            <option value="1">1枚</option>
+            <option value="2">2枚</option>
+            <option value="3">3枚</option>
+            <option value="4">4枚</option>
+        </select><br><br>
+
+        <label for="seat_type">座席の種類：</label>
+        <select id="seat_type" name="seat_type" required>
+            <option value="vip">VIP</option>
+            <option value="general">一般</option>
+        </select><br><br>
+
+        <!-- Stripe決済ボタン -->
+        <button id="submit-button" type="button">予約確認と支払い</button>
+    </form>
+
+    <script>
+        // Stripeの公開キーを設定
+        const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY');
+        
+        document.getElementById('submit-button').addEventListener('click', async () => {
+            const formData = new FormData(document.getElementById('reservation-form'));
+            const response = await fetch('process_reservation.php', {
+                method: 'POST',
+                body: formData,
+            });
+            const session = await response.json();
+            // Stripe Checkoutのセッションに移行
+            stripe.redirectToCheckout({ sessionId: session.id });
+        });
+    </script>
+</body>
+</html>
