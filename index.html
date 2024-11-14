@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>チケット申込フォーム</h1>
-    <form action="https://2025springfest.com/process_form.php" method="post">
+    <form action="https://example.com/process_form.php" method="post">
         <label for="name">氏名:</label><br>
         <input type="text" id="name" name="name" required><br><br>
 
@@ -24,17 +24,5 @@
     </form>
 </body>
 </html>
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $tickets = $_POST["tickets"];
-
-    // データを処理する（例: データベースに保存する、メールを送信する等）
-
-    echo "申込ありがとうございます。氏名: " . htmlspecialchars($name) . "、メール: " . htmlspecialchars($email) . "、電話番号: " . htmlspecialchars($phone) . "、チケット枚数: " . htmlspecialchars($tickets);
-}
-?>
-            
+        
                
